@@ -1,0 +1,19 @@
+Identifies patterns consistent with DLL sideloading used in Lazarus intrusion chains (legitimate executables loading malicious DLLs from local directories).
+
+rule APT_Lazarus_DLL_Sideloading
+{
+    meta:
+        description = "Detects DLL sideloading patterns associated with Lazarus Group tradecraft"
+        threat_actor = "Lazarus Group"
+        category = "execution / persistence"
+
+    strings:
+        $dll1 = ".dll"
+        $path1 = "C:\\Users\\"
+        $path2 = "AppData\\Local"
+        $load = "LoadLibrary"
+        $exe = ".exe"
+
+    condition:
+        $exe and $load and 1 of ($path*)
+}
