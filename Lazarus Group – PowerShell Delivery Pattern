@@ -1,0 +1,21 @@
+Detects PowerShell-based payload delivery patterns commonly associated with Lazarus intrusion chains using encoded execution and download cradles.
+
+
+rule APT_Lazarus_PowerShell_Delivery
+{
+    meta:
+        description = "Detects PowerShell-based delivery chains associated with Lazarus Group activity"
+        threat_actor = "Lazarus Group"
+        category = "scripting / execution"
+        confidence = "medium"
+
+    strings:
+        $ps = "powershell"
+        $enc = "-enc"
+        $download = "DownloadString"
+        $hidden = "-WindowStyle Hidden"
+        $iex = "IEX"
+
+    condition:
+        $ps and $enc and 2 of ($download, $iex, $hidden)
+}
