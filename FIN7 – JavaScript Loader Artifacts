@@ -1,0 +1,20 @@
+Detects FIN7-style malicious JavaScript loaders often used in phishing attachments and web delivery chains.
+
+
+rule FIN7_JavaScript_Loader_Artifacts
+{
+    meta:
+        description = "Detects FIN7-style JS loader behavior used in phishing and initial access"
+        threat_actor = "FIN7"
+        category = "initial access / scripting"
+
+    strings:
+        $wscript = "WScript.Shell"
+        $activex = "ActiveXObject"
+        $xhr = "XMLHttpRequest"
+        $eval = "eval("
+        $base64 = "atob("
+
+    condition:
+        3 of ($*)
+}
