@@ -1,0 +1,19 @@
+Detects LockBit ransomware execution artifacts including encryption markers and ransom note patterns.
+
+rule LockBit_Ransomware_Artifact_Set
+{
+    meta:
+        description = "Detects LockBit ransomware-related artifacts and execution strings"
+        threat_actor = "LockBit"
+        category = "ransomware"
+
+    strings:
+        $note1 = "All your files are encrypted"
+        $note2 = "LockBit"
+        $ext1 = ".lockbit"
+        $ext2 = ".abcd"
+        $btc = "bitcoin address"
+
+    condition:
+        any of ($note*) or 2 of ($ext*)
+}
