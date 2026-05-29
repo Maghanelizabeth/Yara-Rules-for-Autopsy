@@ -1,0 +1,19 @@
+Detects common APT staging patterns across multiple threat actors (Lazarus, FIN7, APT41, etc.) involving unusual staging directories and payload preparation behavior.
+
+
+rule Generic_APT_Staging_Directory_Behavior
+{
+    meta:
+        description = "Detects common staging and persistence directories used by multiple APT groups"
+        category = "persistence / staging"
+
+    strings:
+        $appdata = "AppData\\Roaming"
+        $temp = "Temp\\"
+        $programdata = "ProgramData\\"
+        $hidden = "attrib +h"
+        $copy = "copy /y"
+
+    condition:
+        2 of ($appdata, $temp, $programdata) and $copy
+}
