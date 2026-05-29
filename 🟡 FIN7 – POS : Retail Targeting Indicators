@@ -1,0 +1,19 @@
+Detects artifacts consistent with FIN7 retail/POS-focused malware staging and credential harvesting environments.
+
+rule FIN7_POS_Targeting_Behavior
+{
+    meta:
+        description = "Detects POS-focused malware staging behavior associated with FIN7"
+        threat_actor = "FIN7"
+        category = "credential theft / retail"
+
+    strings:
+        $pos1 = "point of sale"
+        $card = "track2"
+        $sql = "SELECT"
+        $odbc = "ODBC"
+        $dump = "dump"
+
+    condition:
+        2 of ($sql, $odbc, $card, $dump)
+}
