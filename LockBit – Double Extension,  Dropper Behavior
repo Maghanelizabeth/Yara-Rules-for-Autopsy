@@ -1,0 +1,18 @@
+Identifies file modification patterns and dropper behavior commonly seen in LockBit encryption stages.
+
+rule LockBit_Double_Extension_Dropper
+{
+    meta:
+        description = "Detects file renaming and encryption staging behavior linked to LockBit"
+        threat_actor = "LockBit"
+        category = "file encryption behavior"
+
+    strings:
+        $ext1 = ".lockbit"
+        $ext2 = ".enc"
+        $rename = "rename"
+        $delete = "vssadmin"
+
+    condition:
+        1 of ($ext*) and $rename
+}
